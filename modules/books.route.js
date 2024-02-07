@@ -1,5 +1,6 @@
 const router =require("express").Router();
 const bookController=require("./books.controller");
+const {validate}=require("./books.validation ")
 
 router.get("/",async(req,res,next)=>{
     try{
@@ -14,7 +15,7 @@ router.get("/:id",async(req,res,next)=>{
     }catch(e){
         next(e)}
 })
-router.post("/",async(req,res,next)=>{
+router.post("/",validate,async(req,res,next)=>{
     try{
         const result=await bookController.create(req.body);
         res.json({result});
@@ -22,13 +23,13 @@ router.post("/",async(req,res,next)=>{
 })
 router.put("/:id",async(req,res,next)=>{
     try{
-        const result=await bookController.updateById(req.params.id,req,body);
+        const result=await bookController.updateById(req.params.id,req.body);
         res.json({result});
     }catch(e){next(e)}
 })
 router.patch("/:id",async(req,res,next)=>{
     try{
-        const result=await bookController.updateById(req.params.id,req,body);
+        const result=await bookController.updateById(req.params.id,req.body);
         res.json({result});
     }catch(e){next(e)}
 })
